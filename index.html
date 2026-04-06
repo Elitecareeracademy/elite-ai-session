@@ -924,6 +924,13 @@
             // Open WhatsApp immediately (must be inside click handler for popup blockers)
             window.open(waUrl, '_blank');
 
+            // Send confirmation email via Cloudflare Worker (background)
+            fetch('https://elite-mailer.upskillelitecareeracademy.workers.dev', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, whatsapp, age, role })
+            }).catch(err => console.error('Email send failed:', err));
+
             // Show success state
             document.getElementById('formActive').classList.add('hidden');
             document.getElementById('formSuccess').classList.add('active');
